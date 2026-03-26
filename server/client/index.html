@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play UNO online with friends in real-time multiplayer. Create or join a room and enjoy the classic card game!">
+  <title>UNO Multiplayer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- ─── AUTH SCREEN ─── -->
+    <section id="screen-auth" class="screen active">
+      <div class="auth-container">
+        <div class="logo-wrapper">
+          <div class="uno-logo">
+            <div class="logo-card logo-card-1"></div>
+            <div class="logo-card logo-card-2"></div>
+            <div class="logo-card logo-card-3"></div>
+            <div class="logo-card logo-card-4"></div>
+            <span class="logo-text">UNO</span>
+          </div>
+          <p class="tagline">Multiplayer Card Game</p>
+        </div>
+        <div class="auth-form glass-panel">
+          <h2>Enter Your Nickname</h2>
+          <div class="input-group">
+            <input type="text" id="nickname-input" placeholder="e.g. CardMaster99" maxlength="16" autocomplete="off">
+            <div class="input-glow"></div>
+          </div>
+          <button id="btn-enter" class="btn btn-primary btn-large">
+            <span>Play Now</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="floating-cards" aria-hidden="true">
+        <div class="float-card fc-1">🔴</div>
+        <div class="float-card fc-2">🟡</div>
+        <div class="float-card fc-3">🟢</div>
+        <div class="float-card fc-4">🔵</div>
+        <div class="float-card fc-5">🌈</div>
+      </div>
+    </section>
+
+    <!-- ─── LOBBY SCREEN ─── -->
+    <section id="screen-lobby" class="screen">
+      <div class="lobby-container">
+        <div class="lobby-header">
+          <button id="btn-back-lobby" class="btn btn-ghost btn-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          </button>
+          <h1 class="lobby-title">
+            <span class="logo-text-sm">UNO</span>
+            <span class="subtitle">Lobby</span>
+          </h1>
+          <div class="spacer"></div>
+        </div>
+
+        <div class="lobby-actions">
+          <div class="lobby-card glass-panel" id="card-create">
+            <div class="lobby-card-icon">🎮</div>
+            <h3>Create Room</h3>
+            <p>Start a new game and invite friends</p>
+            <div class="player-count-select">
+              <label for="max-players">Max Players</label>
+              <div class="stepper">
+                <button class="btn btn-stepper" id="btn-players-down">−</button>
+                <span id="max-players-value">4</span>
+                <button class="btn btn-stepper" id="btn-players-up">+</button>
+              </div>
+            </div>
+            <button id="btn-create-room" class="btn btn-primary">Create Room</button>
+          </div>
+
+          <div class="divider-or"><span>OR</span></div>
+
+          <div class="lobby-card glass-panel" id="card-join">
+            <div class="lobby-card-icon">🚀</div>
+            <h3>Join Room</h3>
+            <p>Enter a room code to join a game</p>
+            <div class="input-group">
+              <input type="text" id="room-code-input" placeholder="Room Code" maxlength="4" autocomplete="off" style="text-transform: uppercase; text-align: center; letter-spacing: 0.3em; font-size: 1.5rem;">
+            </div>
+            <button id="btn-join-room" class="btn btn-secondary">Join Room</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── WAITING ROOM SCREEN ─── -->
+    <section id="screen-waiting" class="screen">
+      <div class="waiting-container">
+        <div class="waiting-header glass-panel">
+          <div class="waiting-top-row">
+            <button id="btn-leave-room" class="btn btn-ghost btn-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </button>
+            <h2>Room Code</h2>
+            <div class="spacer"></div>
+          </div>
+          <div class="room-code-display" id="room-code-display">
+            <span class="code-char">-</span>
+            <span class="code-char">-</span>
+            <span class="code-char">-</span>
+            <span class="code-char">-</span>
+          </div>
+          <p class="room-code-hint">Share this code with friends!</p>
+        </div>
+
+        <div class="players-list glass-panel" id="players-list">
+          <!-- Players rendered dynamically -->
+        </div>
+
+        <div class="waiting-actions">
+          <button id="btn-ready" class="btn btn-secondary btn-large">Ready Up</button>
+          <button id="btn-start-game" class="btn btn-primary btn-large" style="display:none;">Start Game</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── GAME SCREEN ─── -->
+    <section id="screen-game" class="screen">
+      <div class="game-container">
+        <!-- Opponents -->
+        <div class="opponents-area" id="opponents-area">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Table Center -->
+        <div class="table-center">
+          <div class="direction-indicator" id="direction-indicator">
+            <svg class="direction-arrow" width="160" height="160" viewBox="0 0 160 160">
+              <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+              <path id="direction-path" d="" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="pile-area">
+            <div class="draw-pile" id="draw-pile">
+              <div class="card card-back">
+                <div class="card-back-design">
+                  <span>UNO</span>
+                </div>
+              </div>
+              <span class="pile-count" id="deck-count">0</span>
+            </div>
+            <div class="discard-pile" id="discard-pile">
+              <!-- Top card rendered dynamically -->
+            </div>
+          </div>
+          <div class="active-color-indicator" id="active-color-indicator" style="display:none;">
+            <span id="active-color-text">Active Color</span>
+          </div>
+          <div class="draw-stack-indicator" id="draw-stack-indicator" style="display:none;">
+            <span id="draw-stack-count">+0</span>
+          </div>
+        </div>
+
+        <!-- Player Hand -->
+        <div class="hand-area">
+          <div class="hand-controls">
+            <button id="btn-draw-card" class="btn btn-draw" title="Draw a card">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <span>Draw</span>
+            </button>
+            <div class="turn-indicator" id="turn-indicator">
+              <span id="turn-text">Waiting...</span>
+            </div>
+            <button id="btn-uno" class="btn btn-uno" title="Say UNO!">UNO!</button>
+          </div>
+          <div class="player-hand" id="player-hand">
+            <!-- Cards rendered dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Color Picker Modal -->
+      <div class="modal-overlay" id="color-picker-modal" style="display:none;">
+        <div class="color-picker glass-panel">
+          <h3>Choose a Color</h3>
+          <div class="color-grid">
+            <button class="color-btn color-red" data-color="red">
+              <span>Red</span>
+            </button>
+            <button class="color-btn color-yellow" data-color="yellow">
+              <span>Yellow</span>
+            </button>
+            <button class="color-btn color-green" data-color="green">
+              <span>Green</span>
+            </button>
+            <button class="color-btn color-blue" data-color="blue">
+              <span>Blue</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Over Overlay -->
+      <div class="modal-overlay" id="game-over-modal" style="display:none;">
+        <div class="game-over glass-panel">
+          <div class="game-over-content">
+            <div class="trophy">🏆</div>
+            <h2 id="winner-text">Player Wins!</h2>
+            <p class="game-over-sub">Great game everyone!</p>
+            <button id="btn-back-to-lobby" class="btn btn-primary btn-large">Back to Lobby</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
