@@ -36,10 +36,55 @@
   };
 
   // ─── Screen Navigation ──────────────────────────────────
-  function showScreen(name) {
+  let currentScreen = 'auth';
+
+  function showScreen(name, pushState = true) {
     Object.values(screens).forEach(s => s.classList.remove('active'));
     screens[name].classList.add('active');
+    const previousScreen = currentScreen;
+    currentScreen = name;
+    if (pushState) {
+      history.pushState({ screen: name }, '', '');
+    }
   }
+
+  // ─── Browser / Mobile Back Button ──────────────────────
+  // Set initial state
+  history.replaceState({ screen: 'auth' }, '', '');
+
+  window.addEventListener('popstate', (e) => {
+    const targetScreen = e.state?.screen || 'auth';
+
+    // Handle leaving room when going back from waiting
+    if (currentScreen === 'waiting' && targetScreen === 'lobby') {
+      if (state.socket && state.roomCode) {
+        state.socket.emit('room:leave', { code: state.roomCode });
+        state.roomCode = null;
+        state.roomData = null;
+      }
+      showScreen('lobby', false);
+      return;
+    }
+
+    // Handle going back from game — confirm first
+    if (currentScreen === 'game') {
+      // Push state back so user stays on game screen if they cancel
+      history.pushState({ screen: 'game' }, '', '');
+      if (confirm('Leave the current game?')) {
+        if (state.socket && state.roomCode) {
+          state.socket.emit('room:leave', { code: state.roomCode });
+        }
+        state.gameState = null;
+        state.roomCode = null;
+        state.roomData = null;
+        showScreen('lobby');
+      }
+      return;
+    }
+
+    // Default: navigate to the target screen
+    showScreen(targetScreen, false);
+  });
 
   // ─── Server URL (configurable for split deployment) ─────
   // Set window.__SERVER_URL before this script loads, or it defaults to same-origin
