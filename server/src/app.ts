@@ -6,12 +6,12 @@ import { registerSocketEvents } from './events/socket.events';
 
 const PORT = process.env.PORT || 3000;
 
-// Resolve project root — works for both ts-node (src/) and compiled (dist/server/src/)
-const projectRoot = __dirname.includes('dist')
-  ? path.resolve(__dirname, '..', '..', '..')   // dist/server/src → project root
-  : path.resolve(__dirname, '..', '..');         // server/src → project root
+// Resolve server root — works for both ts-node (src/) and compiled (dist/)
+const serverRoot = __dirname.includes('dist')
+  ? path.resolve(__dirname, '..', '..')   // dist/src → server root
+  : path.resolve(__dirname, '..');        // src → server root
 
-const clientDir = path.join(projectRoot, 'client');
+const clientDir = path.join(serverRoot, 'client');
 
 const app = express();
 const server = http.createServer(app);

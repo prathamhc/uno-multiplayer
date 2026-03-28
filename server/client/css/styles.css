@@ -88,6 +88,9 @@ body {
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
   transform: scale(0.96);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .screen.active {
@@ -240,6 +243,65 @@ body {
   align-items: center;
   gap: 48px;
   z-index: 1;
+  padding: 40px 20px 20px;
+  width: 100%;
+  min-height: 100%;
+  justify-content: center;
+}
+
+/* ─── Auth Footer ──────────────────────────────────────── */
+.auth-footer {
+  margin-top: auto;
+  padding: 24px 20px 16px;
+  text-align: center;
+  z-index: 1;
+}
+
+.auth-footer p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  letter-spacing: 0.03em;
+}
+
+.auth-footer p strong {
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+.auth-footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: color 0.2s ease, transform 0.2s ease;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+}
+
+.footer-link:hover {
+  color: var(--text-primary);
+  background: var(--surface-hover);
+  transform: translateY(-1px);
+}
+
+.footer-link svg {
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.footer-link:hover svg {
+  opacity: 1;
 }
 
 .logo-wrapper {
@@ -367,6 +429,11 @@ body {
   width: 100%;
   max-width: 800px;
   padding: 20px;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .lobby-header {
@@ -493,6 +560,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  margin: 0 auto;
 }
 
 .waiting-header {
@@ -632,6 +700,7 @@ body {
   background: radial-gradient(ellipse at 50% 50%, rgba(67, 160, 71, 0.06) 0%, transparent 60%),
               radial-gradient(ellipse at 50% 100%, rgba(30, 136, 229, 0.04) 0%, transparent 40%),
               var(--bg-primary);
+  overflow: hidden;
 }
 
 .game-container {
@@ -640,6 +709,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 16px;
+  overflow: hidden;
 }
 
 /* ─── Opponents Area ─── */
@@ -1248,16 +1318,103 @@ body {
    RESPONSIVE
    ═══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-  .lobby-actions {
-    flex-direction: column;
-  }
-
-  .divider-or {
-    padding: 8px 0;
+  /* Auth */
+  .auth-container {
+    gap: 32px;
+    padding: 30px 16px 12px;
   }
 
   .auth-form {
     width: 100%;
+    padding: 28px 20px;
+  }
+
+  .uno-logo {
+    width: 160px;
+    height: 100px;
+  }
+
+  .logo-card {
+    width: 48px;
+    height: 68px;
+  }
+
+  .logo-text {
+    font-size: 2.4rem;
+  }
+
+  .tagline {
+    font-size: 0.85rem;
+    margin-top: 12px;
+  }
+
+  /* Lobby */
+  .lobby-container {
+    padding: 16px;
+  }
+
+  .lobby-header {
+    margin-bottom: 24px;
+  }
+
+  .lobby-actions {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .lobby-card {
+    padding: 24px 20px;
+    gap: 12px;
+  }
+
+  .lobby-card-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0;
+  }
+
+  .lobby-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .lobby-card p {
+    font-size: 0.82rem;
+  }
+
+  .divider-or {
+    padding: 4px 0;
+  }
+
+  .logo-text-sm {
+    font-size: 1.4rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+
+  /* Waiting Room */
+  .waiting-container {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .waiting-header {
+    padding: 24px 16px;
+  }
+
+  .code-char {
+    width: 50px;
+    height: 60px;
+    font-size: 1.6rem;
+  }
+
+  .waiting-actions {
+    flex-direction: column;
+  }
+
+  /* Game */
+  .game-container {
+    padding: 8px;
   }
 
   .card {
@@ -1269,33 +1426,444 @@ body {
     font-size: 1.5rem;
   }
 
+  .card-label {
+    font-size: 0.55rem;
+  }
+
+  .card-corner {
+    font-size: 0.6rem;
+  }
+
   .opponents-area {
     gap: 8px;
+    padding: 8px 0;
   }
 
   .opponent-card {
-    padding: 8px 14px;
+    padding: 8px 12px;
     min-width: auto;
+    gap: 8px;
+    border-radius: var(--radius-md);
+  }
+
+  .opponent-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+
+  .opponent-name {
+    font-size: 0.8rem;
+    max-width: 70px;
+  }
+
+  .opponent-cards {
+    font-size: 0.7rem;
+  }
+
+  .table-center {
+    min-height: 160px;
   }
 
   .pile-area {
     gap: 24px;
   }
+
+  .direction-arrow {
+    width: 120px;
+    height: 120px;
+  }
+
+  .hand-controls {
+    gap: 12px;
+  }
+
+  .btn-draw {
+    padding: 8px 14px;
+    font-size: 0.78rem;
+  }
+
+  .turn-indicator {
+    padding: 6px 14px;
+    font-size: 0.78rem;
+  }
+
+  .btn-uno {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .player-hand {
+    padding: 0 8px;
+    min-height: 110px;
+  }
+
+  .player-hand .card {
+    margin-left: -18px;
+  }
+
+  .hand-area {
+    padding: 4px 0 8px;
+  }
+
+  /* Active color & draw stack on mobile */
+  .active-color-indicator {
+    font-size: 0.7rem;
+    padding: 4px 12px;
+    bottom: -32px;
+  }
+
+  .draw-stack-indicator {
+    font-size: 0.85rem;
+    padding: 3px 10px;
+    top: -24px;
+  }
+
+  /* Color picker */
+  .color-picker {
+    padding: 28px 20px;
+  }
+
+  .color-grid {
+    width: 240px;
+    gap: 12px;
+  }
+
+  .color-btn {
+    height: 80px;
+    font-size: 0.95rem;
+  }
+
+  /* Game over */
+  .game-over {
+    padding: 40px 30px;
+  }
+
+  .trophy {
+    font-size: 3.5rem;
+  }
+
+  .game-over h2 {
+    font-size: 1.5rem;
+  }
+
+  /* Toast on mobile */
+  #toast-container {
+    top: 12px;
+    right: 12px;
+    left: 12px;
+  }
+
+  .toast {
+    max-width: 100%;
+    font-size: 0.82rem;
+    padding: 10px 16px;
+  }
 }
 
 @media (max-width: 480px) {
+  /* Auth */
+  .auth-container {
+    gap: 24px;
+    padding: 24px 12px 8px;
+  }
+
+  .auth-form {
+    padding: 24px 16px;
+    gap: 18px;
+  }
+
+  .auth-form h2 {
+    font-size: 1.1rem;
+  }
+
+  .btn-large {
+    padding: 14px 28px;
+    font-size: 1rem;
+  }
+
+  .auth-footer-links {
+    gap: 16px;
+  }
+
+  .footer-link {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+  }
+
+  /* Lobby */
+  .lobby-card {
+    padding: 20px 16px;
+    gap: 10px;
+  }
+
+  .lobby-card-icon {
+    font-size: 1.8rem;
+  }
+
+  .lobby-card h3 {
+    font-size: 1rem;
+  }
+
+  .input-group input {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  #room-code-input {
+    font-size: 1.2rem !important;
+    letter-spacing: 0.2em !important;
+  }
+
+  .player-count-select {
+    gap: 10px;
+  }
+
+  /* Waiting */
+  .code-char {
+    width: 44px;
+    height: 54px;
+    font-size: 1.4rem;
+  }
+
+  .room-code-display {
+    gap: 8px;
+  }
+
+  .player-item {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .player-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .player-name {
+    font-size: 0.9rem;
+  }
+
+  .ready-badge {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+  }
+
+  /* Game */
   .card {
-    width: 58px;
-    height: 87px;
+    width: 56px;
+    height: 84px;
+    border-radius: 8px;
+    border-width: 2px;
+  }
+
+  .card-value {
+    font-size: 1.2rem;
+  }
+
+  .card-label {
+    font-size: 0.45rem;
+  }
+
+  .card-corner {
+    font-size: 0.5rem;
+  }
+
+  .card-corner-tl {
+    top: 3px;
+    left: 4px;
+  }
+
+  .card-corner-br {
+    bottom: 3px;
+    right: 4px;
+  }
+
+  .player-hand .card {
+    margin-left: -22px;
+  }
+
+  .player-hand {
+    min-height: 90px;
+    padding: 0 4px;
+  }
+
+  .player-hand .card:hover {
+    transform: translateY(-14px) scale(1.06);
+  }
+
+  .opponents-area {
+    gap: 6px;
+    padding: 4px 0;
+  }
+
+  .opponent-card {
+    padding: 6px 8px;
+    gap: 6px;
+    border-radius: 10px;
+  }
+
+  .opponent-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 0.7rem;
+  }
+
+  .opponent-name {
+    font-size: 0.72rem;
+    max-width: 55px;
+  }
+
+  .opponent-cards {
+    font-size: 0.62rem;
+  }
+
+  .challenge-btn {
+    padding: 3px 7px;
+    font-size: 0.6rem;
+  }
+
+  .table-center {
+    min-height: 130px;
+  }
+
+  .pile-area {
+    gap: 20px;
+  }
+
+  .direction-arrow {
+    width: 100px;
+    height: 100px;
+  }
+
+  .hand-controls {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .btn-draw {
+    padding: 6px 10px;
+    font-size: 0.72rem;
+  }
+
+  .btn-draw svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .turn-indicator {
+    padding: 5px 10px;
+    font-size: 0.72rem;
+  }
+
+  .btn-uno {
+    padding: 6px 12px;
+    font-size: 0.78rem;
+  }
+
+  .hand-area {
+    padding: 2px 0 4px;
+  }
+
+  /* Deck card on discard/draw pile smaller too */
+  .card-back-design {
+    font-size: 0.75rem;
+  }
+
+  .pile-count {
+    font-size: 0.7rem;
+    margin-top: 4px;
+  }
+
+  /* Game Over modal on small screens */
+  .game-over {
+    padding: 32px 24px;
+  }
+
+  .game-over h2 {
+    font-size: 1.3rem;
+  }
+
+  .trophy {
+    font-size: 3rem;
+  }
+}
+
+/* Extra small screens (iPhone SE, etc) */
+@media (max-width: 360px) {
+  .card {
+    width: 48px;
+    height: 72px;
+  }
+
+  .card-value {
+    font-size: 1rem;
   }
 
   .player-hand .card {
     margin-left: -24px;
   }
 
+  .opponent-card {
+    padding: 5px 6px;
+  }
+
+  .opponent-name {
+    max-width: 45px;
+    font-size: 0.65rem;
+  }
+
+  .opponent-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 0.6rem;
+  }
+
+  .hand-controls {
+    gap: 6px;
+  }
+
   .code-char {
-    width: 48px;
-    height: 58px;
-    font-size: 1.5rem;
+    width: 38px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Landscape on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .game-container {
+    padding: 4px 8px;
+  }
+
+  .opponents-area {
+    padding: 2px 0;
+  }
+
+  .table-center {
+    min-height: 100px;
+  }
+
+  .card {
+    width: 50px;
+    height: 75px;
+  }
+
+  .player-hand {
+    min-height: 80px;
+  }
+
+  .hand-area {
+    padding: 0;
+  }
+
+  .hand-controls {
+    margin-bottom: 4px;
+  }
+
+  .direction-arrow {
+    width: 80px;
+    height: 80px;
   }
 }
